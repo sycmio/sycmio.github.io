@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+   		<meta charset="utf-8">
+		<title>苏雍驰的个人主页</title>
+		<style type="text/css">
+			a{color:white; font-size:30px; font-family:微软雅黑; TEXT-DECORATION:none}a:hover{TEXT-DECORATION:underline}
+			p{color:white; font-size:26px; font-family:微软雅黑;}
+			.text{color:white; font-size:26px; font-family:微软雅黑;}
+			#diary .text{color:white; font-size:36px; font-family:微软雅黑}
+			#webHW .text{color:white; font-size:36px; font-family:微软雅黑}
+			#webHW .textTemp{color:white; font-size:30px; font-family:微软雅黑}
+			#motto .text{color:white; font-size:36px; font-family:arial}
+			#info .text{color:white; font-size:20px; font-family:微软雅黑}
+			#motto 
+			{
+				position: absolute; 
+				z-index: 1; 
+				left: 10%; 
+				right: 50%; 
+				top: 70%
+			}
+			#portrait 
+			{
+				position: absolute; 
+				z-index: 1;
+				left: 17%; 
+				top: 10%;
+				width: 100px;
+				height: 100px;
+				border-radius: 50px;
+				border:2px solid #FFF;
+				overflow: hidden;
+				background: red;
+			}
+			#info 
+			{
+				position: absolute;
+				z-index: 1;
+				left: 50%;
+				top: 10%;
+			}
+			.backgroundPic
+			{
+				height: 100%; 
+				width: 100%; 
+				min-width: 1000px;
+				min-height: 500px;
+				position: fixed; 
+				left: 0px; 
+				top: 0px; 
+				z-index: -1;
+			}
+			.shadeDiv_mainpartWrap
+			{
+				z-index: 1;
+				position: absolute;
+				left: 200px; 
+				top: 300px; 
+				width: 1000px;
+				height: 800px;
+			}
+			.shadeDiv_titleWrap
+			{
+				z-index: 1;
+				position: absolute;
+				left: 200px; 
+				top: 50px;
+				width: 1000px; 
+				height: 200px;
+			}
+			#shadeDiv_title
+			{
+				position: absolute;
+				margin: 0px 1px; 
+				z-index: 0; 
+				background-color: black; 
+				opacity: 0.7;
+				filter: alpha(opacity=70);
+				position: absolute; 
+				left: 0%; 
+				top: 0%; 
+				width: 100%; 
+				height: 100%;
+			}
+		 	#shadeDiv_mainpart
+			{
+				position: absolute;
+				margin: 0px 1px; 
+				z-index: 0; 
+				background-color: black; 
+				opacity: 0.9;
+				filter: alpha(opacity=90);
+				position: absolute;
+				left: 0%; 
+				top: 0%; 
+				width: 100%;
+				height: 100%;
+			}
+			
+			#webHW
+			{
+				position: absolute;
+				z-index: 1;	
+				top: 10%;
+				left: 10%;
+				width: 40%;
+				height:70%;
+			}
+			#diary
+			{
+				position: absolute;
+				z-index: 1;
+				top: 10%;
+				left: 60%;
+				width: 40%;
+				height: 70%;
+			}
+		</style>
+	</head>
+	<body>
+    <div>
+    <img src="http://sycmio.github.io/imageSources/灵梦图.jpg" class="backgroundPic">
+    </img>
+    
+    <div class="shadeDiv_titleWrap">
+    <div id="shadeDiv_title"></div>
+    <div id="portrait">
+    	<img src="http://sycmio.github.io/imageSources/0MIEE@YK2Q4~GOGQ60NM5}A.png" style="height:100%; width:100%;">
+        </img>
+    	
+    </div>
+    
+    <div id="motto">
+		<div class="text">もうすぐ、春がくる。</div>
+    </div>
+    <div id="info">
+    	<div class="text">个人简介：</div>
+        <div class="text">无可救药的二次元厨www编程什么的...才，才不喜欢呢！てへぺろ(·ω<)</div>
+        <div class="text">姓名：苏雍驰</div>
+        <div class="text">邮箱：suyongchi@126.com</div>
+        <div class="text">qq\微信号：915990678</div>
+        
+    </div>
+	</div>
+    
+    <div class="shadeDiv_mainpartWrap">
+    <div id="shadeDiv_mainpart"><img src="http://sycmio.github.io/imageSources/69bOOOPICea.jpg" style="height:100%; width:100%;"></img></div>
+    <div id="webHW">
+    	<div class="text">web前端课程展示区</div>
+        <p><br/></p><p><br/></p>
+        <a href="http://sycmio.github.io/hw1" target="_blank">第一次课程作业</a>
+    	<p><br/></p>
+    	<div class="textTemp">第二次课程作业(未发布)</div>
+        <p><br/></p>
+        <div class="textTemp">第三次课程作业(未发布)</div>
+        <p><br/></p>
+        <div class="textTemp">第四次课程作业(未发布)</div>
+        <p><br/></p>
+        <div class="textTemp">第五次课程作业(未发布)</div>
+	</div>
+    <div id="diary">
+    	<div class="text">个人日志区</div>
+        <p><br/></p><p><br/></p>
+        <a href="http://sycmio.github.io/diary/diary1" target="_blank">1.浅谈web前端</a>
+    </div>
+    
+    </div>
+</body>
+</html>
