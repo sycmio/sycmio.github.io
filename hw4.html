@@ -217,8 +217,8 @@
     	requestForJson();
     	var picLatitude = myJsonObj.array[parseInt(tmpDiv.id)%typeOfPic].iLatitude;
     	var picLongitude = myJsonObj.array[parseInt(tmpDiv.id)%typeOfPic].iLongitude;
-    	var result = countDistanceMath(picLatitude, picLongitude);
-    	tmpDiv.firstChild.innerText = result.toString();
+    	var result = parseInt(countDistanceMath(picLatitude, picLongitude));
+    	tmpDiv.firstChild.innerText = result.toString()+"千米";
     }
 
 	var createMorePic = function(num, isInitial, totalNum)
