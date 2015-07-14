@@ -214,6 +214,11 @@
 
     var showDistance = function(tmpDiv)
     {
+    	if(myLongitude===0&&myLatitude===0)
+    	{
+    		tmpDiv.firstChild.innerText = "未能获取您的地理位置";
+    		return;
+    	}
     	requestForJson();
     	var picLatitude = myJsonObj.array[parseInt(tmpDiv.id)%typeOfPic].iLatitude;
     	var picLongitude = myJsonObj.array[parseInt(tmpDiv.id)%typeOfPic].iLongitude;
