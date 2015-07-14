@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>基础实验四：瀑布流</title>
+	<style type="text/css">
+		#allDiv
+		{ 
+			position: absolute; 
+			width: 100%;
+		} 
+		#allDiv .divBox
+		{
+			 position: absolute; 
+			 background: white; 
+			 border: solid 1px #ccc; 
+			 text-align: center; 
+			 padding: 10px; 
+			 left: 0px; 
+			 top: 0px; 
+			 width: 300px;
+			 height: 300px;
+			 overflow: hidden;
+		}
+		#allDiv .divBox img
+		{
+			width: 100%;
+			height: 80%;
+			cursor: pointer;
+			-webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+			transition: opacity 0.35s, transform 0.35s;
+			-webkit-transform: scale(1.15);
+			transform: scale(1.15);
+		}
+		#allDiv .divBox:hover img
+		{
+			opacity: 0.5;
+			-webkit-transform: scale(1);
+			transform: scale(1);
+		}
+		#allDiv #divCenter img
+		{
+			position: absolute;
+			width: 50%;
+			height: 60%;
+			left: 10%;
+			top: 20%;
+		}
+		#divTitle
+		{
+			position: absolute;
+			text-align: center;
+			font-size: 36px;
+			font-family: 微软雅黑;
+			left: 0px; 
+			top: 0px; 
+			width: 100%;
+			height: 100px; 
+		}
+		.textBox
+		{
+			position: absolute;
+			font-size: 20px;
+			font-family: 微软雅黑;
+			left: 65%;
+			top: 20%;
+			width: 30%;
+			height: 60%;
+			background: white;
+			border: solid 1px #ccc; 
+		}
+		.positionBox
+		{
+			position: absolute;
+			left: 50%;
+			top: 90%;
+		}
+		#divCenter
+		{
+			position: absolute; 
+			z-index: 100; 
+			display: none; 
+			background-color: black; 
+			width: 50%; 
+			height: 400px;
+			left: 20%;
+			border: 1px solid #222;
+		}
+		#shadeDiv
+		{
+			position: absolute;
+			margin: 0px 1px; 
+			z-index: 2; 
+			background-color: black; 
+			opacity: 0.9;
+			filter: alpha(opacity=90);
+			position: absolute;
+			left: 0%; 
+			top: 0%; 
+			width: 100%;
+			height: 1000px;
+			display: none;
+			}
+			.posButton
+			{
+				position: absolute;
+				left: 10%;
+				top: 90%;
+			}
+	</style>	
+	<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+</script>
+	
+</head>
+<body background="http://img15.3lian.com/2015/f1/87/d/57.jpg">
+
+<div id='allDiv'>
+	<div id="shadeDiv"></div>
+	<div id="divTitle">王小寒的秀恩爱网站</div>
+	<div id="divCenter" class="divCenter">
+    	<img src="" id="showimg">
+    	<div class="textBox" id="textBox"></div>
+    	<button style="position: absolute; left: 10%; top:85%" onclick="requestForNextComment()">下页评论</button>
+    	<button style="position: absolute; left: 35%; top:85%" onclick="requestForPreComment()">上页评论</button>
+    </div>
+</div>
+<script type="text/javascript">
+
+
+	var textNum=0; //记录应该读第几条评论
+	var myJson; //储存json文件
+	var myJsonObj;
+	var totalNum = 0;//记录加载到第几幅图了
+	var typeOfPic = 19;//共19张不重复的图片
+	var margin = 20;//设置间距
+	var myLatitude = 0;//使用者的经纬度
+	var myLongitude = 0;
+	var R = 6371.004;//地球半径
+	var refresh = function()
+	{//定义成函数便于调用
+		var divBox=$(".divBox");
+		var	actualW = divBox[0].offsetWidth+margin;//取区块的实际宽度
+		var actualH = divBox[0].offsetHeight+margin;//取区块的实际高度
+		var columnNumAll = document.documentElement.offsetWidth/actualW|0;//计算一行能放几个区块
+		for(var i = 0;i < divBox.length;i++) 
+		{//有多少个divBox就循环多少次
+			var lineNum = parseInt(i/columnNumAll);
+			var columnNum = i%columnNumAll;
+			divBox.eq(i).css("top",lineNum*actualH+100);
+			divBox.eq(i).css("left",columnNum * actualW+(document.documentElement.offsetWidth-columnNumAll*actualW)/2);
+		}
+		if(document.getElementById("divCenter").style.display!="block")
+		{
+			document.getElementById("divCenter").style.display = "none";
+		}
+	}
+	var initial = function()
+	{
+		getLocation();
+		requestForJson();
+    	myJsonObj = eval("("+myJson+")");
+		for(var i=0; i<12; i++)//初始加载12幅图片
+		{
+			createMorePic(totalNum%typeOfPic, true, totalNum);
+	    	refresh();
+	    	loadingTimes++;
+	    	totalNum++;
+		}
+		refresh();
+	}
+	/* 使用for in运算返回数组中某一值的对应项数(比如算出最小的高度值是数组里面的第几个) */
+	/*这里一定要用onload，因为图片不加载完就不知道高度值*/
+	window.onload = function() {initial();};
+	/*浏览器窗口改变时也运行函数*/
+	window.onresize = function() {refresh();};
+
+	var picBig = function(evt) 
+	{
+		var scrolltop = document.documentElement.scrollTop || document.body.scrollTop;
+		var img = evt.target;
+        var url = img.src; //得到图片的路径
+        document.getElementById("showimg").src = url; //把图片路径给浮动层里的<img>
+        $('.divCenter').show(1000);
+        document.getElementById('divCenter').style.top = 150+scrolltop+"px";//让浮动层显示（弹出）
+        document.getElementById('shadeDiv').style.display = "block";
+        document.getElementById('shadeDiv').style.top = scrolltop+"px";
+        textNum=0;
+    }
+
+	var downMouse = function(evt) 
+	{
+    	var targetNode = evt.target; //得到点击对象
+    	if (targetNode.nodeName.toLocaleUpperCase() == "IMG" && document.getElementById("divCenter").style.display === "none") 
+    	{
+    		picBig(evt);
+        }
+        else if(targetNode.className.indexOf('divCenter')==-1 && ((targetNode.parentNode.className!=undefined && targetNode.parentNode.className.indexOf('divCenter')==-1) || targetNode.parentNode.className===undefined) && document.getElementById("divCenter").style.display === "block")
+        {
+        	$('.divCenter').hide(1000);
+        	//document.getElementById("divCenter").style.display = "none";
+        	document.getElementById('shadeDiv').style.display = "none";
+        	textNum=0;
+        }
+    }
+    document.addEventListener('mousedown',downMouse);
+
+	var countDistanceMath = function(picLatitude, picLongitude)
+	{
+		var tmpC = Math.sin(picLatitude*Math.PI/180)*Math.sin(myLatitude*Math.PI/180)+Math.cos(picLatitude*Math.PI/180)*Math.cos(myLatitude*Math.PI/180)*Math.cos((picLongitude-myLongitude)*Math.PI/180);
+		return R*Math.acos(tmpC);
+	} 
+
+    var showDistance = function(tmpDiv)
+    {
+    	requestForJson();
+    	var picLatitude = myJsonObj.array[parseInt(tmpDiv.id)%typeOfPic].iLatitude;
+    	var picLongitude = myJsonObj.array[parseInt(tmpDiv.id)%typeOfPic].iLongitude;
+    	var result = countDistanceMath(picLatitude, picLongitude);
+    	tmpDiv.firstChild.innerText = result.toString();
+    }
+
+	var createMorePic = function(num, isInitial, totalNum)
+	{
+		var tmpDiv = document.createElement('div');
+		var tmpPic = document.createElement('img');
+		var tmpPosDiv = document.createElement('div');
+		var tmpButton = document.createElement('button');
+		tmpPosDiv.setAttribute("class","positionBox");
+		tmpDiv.setAttribute("class","divBox");
+		tmpDiv.setAttribute("id", totalNum.toString());
+		tmpPic.setAttribute("src",myJsonObj.array[num].src);
+		tmpPic.setAttribute("alt","抱歉，加载失败");
+		tmpButton.setAttribute("class","posButton");
+		tmpButton.addEventListener("click",function(){showDistance(tmpDiv);});
+		tmpButton.innerText = "点此获取距离";
+		tmpPosDiv.innerText = "test";
+		if(isInitial)
+		{
+			tmpDiv.setAttribute("style","-webkit-transition: all .7s ease-out .1s");
+		}
+		tmpDiv.appendChild(tmpPosDiv);
+		tmpDiv.appendChild(tmpPic);		
+		tmpDiv.appendChild(tmpButton);
+		document.getElementById("allDiv").appendChild(tmpDiv);
+	}
+
+	var loadingTimes = 0; 
+    window.onscroll = function()//页面滚动时调用
+  	{
+    	var scrolltop = document.documentElement.scrollTop || document.body.scrollTop;
+    	document.getElementById('divCenter').style.top = 150+scrolltop+"px";
+    	document.getElementById('shadeDiv').style.top = scrolltop+"px";
+    	if(scrolltop+document.documentElement.clientHeight > window.document.body.scrollHeight*0.8 && loadingTimes < 50)
+    	{
+    		requestForJson();
+    		for(var i=0; i<10; i++)
+    		{
+	    		createMorePic(totalNum%typeOfPic, false, totalNum);
+	    		refresh();
+	    		loadingTimes++;
+	    		totalNum++;
+	    	}
+    	}
+  	}
+  	function requestForNextComment()
+  	{
+  		if(textNum<4)
+  		{
+  			textNum++;
+  			var root = "http://sycmio.github.io/src/comment"+textNum+".txt";
+  			var xmlhttp;
+			xmlhttp=new XMLHttpRequest();
+			xmlhttp.open("GET",root,false);
+			xmlhttp.send();
+			document.getElementById("textBox").innerHTML=xmlhttp.responseText;
+  		}
+  		else
+  		{
+  			alert("已经是最后一页评论！");
+  		}
+  	}
+  	function requestForPreComment() 
+  	{
+  		if(textNum>1)
+  		{
+  			textNum--;
+  			var root = "http://sycmio.github.io/src/comment"+textNum+".txt";
+  			var xmlhttp;
+			xmlhttp=new XMLHttpRequest();
+			xmlhttp.open("GET",root,false);
+			xmlhttp.send();
+			document.getElementById("textBox").innerHTML=xmlhttp.responseText;
+  		}
+  		else
+  		{
+  			alert("已经是第一页评论！");
+  		}
+  	}
+	function requestForJson()
+	{
+		var xmlhttp;
+		xmlhttp=new XMLHttpRequest();
+		xmlhttp.open("GET","http://sycmio.github.io/src/myJson.json",false);
+		xmlhttp.send();
+		myJson = xmlhttp.responseText;
+		myJsonObj = eval("("+myJson+")");
+	}	
+	function getLocation()
+  	{
+  		if (navigator.geolocation)
+    	{
+    		navigator.geolocation.getCurrentPosition(getMyLocation);
+    	}
+  	}
+	function getMyLocation(position)
+  	{
+  		myLatitude = position.coords.latitude; 
+  		myLongitude = position.coords.longitude;	
+  	}
+	</script>
+</body>
+</html>
