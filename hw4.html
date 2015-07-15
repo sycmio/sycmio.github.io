@@ -151,24 +151,25 @@
 	<div id="divCenter" class="divCenter">
     	<img src="" id="showimg">
     	<div class="textBox" id="textBox"></div>
-    	<button style="position: absolute; left: 10%; top:85%" onclick="requestForNextComment()">下页评论</button>
-    	<button style="position: absolute; left: 35%; top:85%" onclick="requestForPreComment()">上页评论</button>
+    	<button style="position: absolute; left: 10%; top:85%" onclick="requestForCommentJson(1)">下页评论</button>
+    	<button style="position: absolute; left: 25%; top:85%" onclick="requestForCommentJson(0)">显示评论</button>
+    	<button style="position: absolute; left: 40%; top:85%" onclick="requestForCommentJson(-1)">上页评论</button>
     </div>
 </div>
 <script type="text/javascript">
 
-
-	var textNum=0; //记录应该读第几条评论
-	var myJsonObj;//储存json文件	
+	var textNum=0; //记录应该读一张图的第几条评论
+	var myJsonObj;//储存图片json文件	
+	var myCommentJsonObj;//储存评论json文件
 	var totalNum = 0;//记录加载到第几幅图了
-	var typeOfPic = 19;//共19张不重复的图片
+	var typeOfPic;//不重复的图片的个数，记录在json文件中
 	var margin = 20;//设置间距
-	var myLatitude = 0;//使用者的经纬度
-	var myLongitude = 0;
+	var myLatitude = 0;//使用者的纬度
+	var myLongitude = 0;//使用者的经度
 	var R = 6371.004;//地球半径
-	var clickID = 0;
-	var refresh = function()
-	{//定义成函数便于调用
+	var clickID = 0;//记录点击的图片id
+	var refresh = function()//刷新屏幕函数，计算div位置
+	{
 		var divBox=$(".divBox");
 		var	actualW = divBox[0].offsetWidth+margin;//取区块的实际宽度
 		var actualH = divBox[0].offsetHeight+margin;//取区块的实际高度
@@ -185,10 +186,11 @@
 			document.getElementById("divCenter").style.display = "none";
 		}
 	}
-	var initial = function()
+	var initial = function()//初始化函数
 	{
-		getLocation();
-		requestForJson();
+		getLocation();//得到地理信息
+		requestForJson();//请求图片json
+		typeOfPic = 19;//设置不重复图片个数
 		for(var i=0; i<12; i++)//初始加载12幅图片
 		{
 			createMorePic(totalNum%typeOfPic, true, totalNum);
@@ -198,11 +200,8 @@
 		}
 		refresh();
 	}
-	/* 使用for in运算返回数组中某一值的对应项数(比如算出最小的高度值是数组里面的第几个) */
-	/*这里一定要用onload，因为图片不加载完就不知道高度值*/
-	window.onload = function() {initial();};
-	/*浏览器窗口改变时也运行函数*/
-	window.onresize = function() {refresh();};
+	window.onload = function() {initial();};//初始加载页面时运行
+	window.onresize = function() {refresh();};//浏览器窗口改变时运行
 
 	var picBig = function(evt) 
 	{
@@ -214,38 +213,50 @@
 		var img = evt.target;
         var url = img.src; //得到图片的路径
         document.getElementById("showimg").src = url; //把图片路径给浮动层里的<img>
-        $('.divCenter').show(1000);
-        document.getElementById('divCenter').style.top = 150+scrolltop+"px";//让浮动层显示（弹出）
+        $('.divCenter').show(1000);//设置动画效果
+        document.getElementById('divCenter').style.top = 150+scrolltop+"px";//点击大图弹出
         document.getElementById('shadeDiv').style.display = "block";
         document.getElementById('shadeDiv').style.top = scrolltop+"px";
-        textNum=0;
-        clickID=parseInt(evt.target.parentNode.id);
+        textNum=0;//清空评论计数
+        clickID=parseInt(evt.target.parentNode.id);//获得点击图的id
     }
 
-	var downMouse = function(evt) 
+	var downMouse = function(evt) //设置点击鼠标事件
 	{
     	var targetNode = evt.target; //得到点击对象
-    	if (targetNode.nodeName.toLocaleUpperCase() == "IMG" && document.getElementById("divCenter").style.display === "none") 
+    	if (targetNode.nodeName.toLocaleUpperCase() == "IMG" && document.getElementById("divCenter").style.display === "none") //点击放大
     	{
     		picBig(evt);
         }
-        else if(targetNode.className.indexOf('divCenter')==-1 && ((targetNode.parentNode.className!=undefined && targetNode.parentNode.className.indexOf('divCenter')==-1) || targetNode.parentNode.className===undefined) && document.getElementById("divCenter").style.display === "block")
+        else if(targetNode.className.indexOf('divCenter')==-1 && ((targetNode.parentNode.className!=undefined && targetNode.parentNode.className.indexOf('divCenter')==-1) || targetNode.parentNode.className===undefined) && document.getElementById("divCenter").style.display === "block") //在大图出来的情况下点击其外关闭大图
         {
-        	$('.divCenter').hide(1000);
-        	//document.getElementById("divCenter").style.display = "none";
+        	$('.divCenter').hide(1000); //设置动画
         	document.getElementById('shadeDiv').style.display = "none";
         	textNum=0;
+        	document.getElementById('textBox').innerHTML = "";//清空评论
         }
     }
-    document.addEventListener('mousedown',downMouse);
+    document.addEventListener('mousedown',downMouse);//增加事件监听
 
-	var countDistanceMath = function(picLatitude, picLongitude)
+	var countDistanceMath = function(picLatitude, picLongitude)//计算地理距离
 	{
 		var tmpC = Math.sin(picLatitude*Math.PI/180)*Math.sin(myLatitude*Math.PI/180)+Math.cos(picLatitude*Math.PI/180)*Math.cos(myLatitude*Math.PI/180)*Math.cos((picLongitude-myLongitude)*Math.PI/180);
 		return R*Math.acos(tmpC);
 	} 
 
-    var showDistance = function(tmpDiv)
+	function setPicURL()//异步设置图片地址
+	{
+		var picElement = document.getElementsByClassName("divBoxPic");
+		for(var i=0; i<picElement.length; i++)
+		{
+			if(picElement[i].src!=myJsonObj.array[i%typeOfPic].src)
+			{
+				picElement[i].src = myJsonObj.array[i%typeOfPic].src;
+			}
+		}
+	}
+
+    var showDistance = function(tmpDiv)//显示地理距离
     {
     	if(myLongitude===0&&myLatitude===0)
     	{
@@ -259,7 +270,7 @@
     	tmpDiv.firstChild.innerText = result.toString()+"千米";
     }
 
-	var createMorePic = function(num, isInitial, totalNum)
+	var createMorePic = function(num, isInitial, totalNum)//动态创建图片标签
 	{
 		var tmpDiv = document.createElement('div');
 		var tmpPic = document.createElement('img');
@@ -268,13 +279,14 @@
 		tmpPosDiv.setAttribute("class","positionBox");
 		tmpDiv.setAttribute("class","divBox");
 		tmpDiv.setAttribute("id", totalNum.toString());
-		tmpPic.setAttribute("src",myJsonObj.array[num].src);
+		tmpPic.setAttribute("src","http://sycmio.github.io/imageSources/897342225754436199.jpg");
 		tmpPic.setAttribute("alt","抱歉，加载失败");
+		tmpPic.setAttribute("class","divBoxPic");
 		tmpButton.setAttribute("class","posButton");
 		tmpButton.addEventListener("click",function(){showDistance(tmpDiv);});
 		tmpButton.innerText = "点此获取距离";
 		tmpPosDiv.innerText = "在此显示距离";
-		if(isInitial)
+		if(isInitial)//如果是初始的12张图片则添加一个动画效果
 		{
 			tmpDiv.setAttribute("style","-webkit-transition: all .7s ease-out .1s");
 		}
@@ -284,59 +296,61 @@
 		document.getElementById("allDiv").appendChild(tmpDiv);
 	}
 
-	var loadingTimes = 0; 
+	var loadingTimes = 0; //定义最多加载的图片个数
     window.onscroll = function()//页面滚动时调用
   	{
     	var scrolltop = document.documentElement.scrollTop || document.body.scrollTop;
-    	document.getElementById('divCenter').style.top = 150+scrolltop+"px";
+    	document.getElementById('divCenter').style.top = 150+scrolltop+"px";//重新定位点击大图的位置
     	document.getElementById('shadeDiv').style.top = scrolltop+"px";
-    	if(scrolltop+document.documentElement.clientHeight > window.document.body.scrollHeight*0.8 && loadingTimes < 50)
+    	if(scrolltop+document.documentElement.clientHeight > window.document.body.scrollHeight*0.8 && loadingTimes < 50)//页面加载到80%以上则开始刷新
     	{
     		requestForJson();
-    		for(var i=0; i<10; i++)
+    		for(var i=0; i<10; i++) //一次加载10张图片
     		{
-	    		createMorePic(totalNum%typeOfPic, false, totalNum);
+	    		createMorePic(totalNum%typeOfPic, false, totalNum);//动态创建
 	    		refresh();
 	    		loadingTimes++;
 	    		totalNum++;
 	    	}
     	}
   	}
-  	function requestForNextComment()
+  	function requestForComment(typeOfRequest)//点击评论按钮的函数
   	{
-  		if(textNum<4)
-  		{
-  			textNum++;
-  			var root = "http://sycmio.github.io/src/comment"+textNum+".txt";
-  			var xmlhttp;
-			xmlhttp=new XMLHttpRequest();
-			xmlhttp.open("GET",root,false);
-			xmlhttp.send();
-			document.getElementById("textBox").innerHTML=xmlhttp.responseText;
-  		}
-  		else
-  		{
-  			alert("已经是最后一页评论！");
-  		}
+  		if(typeOfRequest===1)//下一页评论
+	  	{
+	  		if(textNum<4)
+	  		{
+	  			textNum++;
+				document.getElementById("textBox").innerHTML=myCommentJsonObj.comment[(textNum+clickID*4-1)%myCommentJsonObj.total];
+	  		}
+	  		else
+	  		{
+	  			alert("已经是最后一页评论！");
+	  		}
+	  	}
+	  	else if(typeOfRequest===-1)//上一页评论
+	  	{
+		  	if(textNum>1)
+	  		{
+	  			textNum--;
+				document.getElementById("textBox").innerHTML=myCommentJsonObj.comment[(textNum+clickID*4-1)%myCommentJsonObj.total];
+	  		}
+	  		else
+	  		{
+	  			alert("已经是第一页评论！");
+	  		}
+	  	}
+	  	else if(typeOfRequest===0)//显示评论
+	  	{
+	  		if(textNum===0)//大图出现后首次点击该按钮
+	  		{
+	  			textNum++;
+				document.getElementById("textBox").innerHTML=myCommentJsonObj.comment[(textNum+clickID*4-1)%myCommentJsonObj.total];
+	  		}
+	  	}
   	}
-  	function requestForPreComment() 
-  	{
-  		if(textNum>1)
-  		{
-  			textNum--;
-  			var root = "http://sycmio.github.io/src/comment"+textNum+".txt";
-  			var xmlhttp;
-			xmlhttp=new XMLHttpRequest();
-			xmlhttp.open("GET",root,false);
-			xmlhttp.send();
-			document.getElementById("textBox").innerHTML=xmlhttp.responseText;
-  		}
-  		else
-  		{
-  			alert("已经是第一页评论！");
-  		}
-  	}
-	function requestForJson()
+
+	function requestForJson()//向服务器异步发送获得图片信息的请求
 	{
 		var xmlhttp;
 		xmlhttp=new XMLHttpRequest();
@@ -345,19 +359,35 @@
   			if (xmlhttp.readyState==4 && xmlhttp.status==200)
     		{
     			myJsonObj = eval("("+xmlhttp.responseText+")");
+    			setPicURL();
     		}
   		}
-		xmlhttp.open("GET","http://sycmio.github.io/src/myJson.json",false);
+		xmlhttp.open("GET","http://sycmio.github.io/src/myJson.json",true);
 		xmlhttp.send();
 	}	
-	function getLocation()
+	function requestForCommentJson(typeOfRequest)//向服务器异步发送获得评论的请求
+	{
+		var xmlhttp;
+		xmlhttp=new XMLHttpRequest();
+		xmlhttp.onreadystatechange=function()
+  		{
+  			if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    		{
+    			myCommentJsonObj = eval("("+xmlhttp.responseText+")");
+    			requestForComment(typeOfRequest);
+    		}
+  		}
+		xmlhttp.open("GET","http://sycmio.github.io/src/comment_list.json",true);
+		xmlhttp.send();
+	}	
+	function getLocation()//获得用户地理位置
   	{
   		if (navigator.geolocation)
     	{
     		navigator.geolocation.getCurrentPosition(getMyLocation);
     	}
   	}
-	function getMyLocation(position)
+	function getMyLocation(position)//获得用户地理位置
   	{
   		myLatitude = position.coords.latitude; 
   		myLongitude = position.coords.longitude;	
