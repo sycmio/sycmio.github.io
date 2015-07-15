@@ -4,12 +4,12 @@
 	<meta charset="UTF-8">
 	<title>基础实验四：瀑布流</title>
 	<style type="text/css">
-		#allDiv
+		#allDiv/*包裹整体的div*/
 		{ 
 			position: absolute; 
 			width: 100%;
 		} 
-		#allDiv .divBox
+		#allDiv .divBox/*瀑布流小块div*/
 		{
 			 position: absolute; 
 			 background: #DFDFDF; 
@@ -22,7 +22,7 @@
 			 height: 300px;
 			 overflow: hidden;
 		}
-		#allDiv .divBox img
+		#allDiv .divBox img/*小块div中的小图*/
 		{
 			width: 100%;
 			height: 80%;
@@ -32,13 +32,13 @@
 			-webkit-transform: scale(1);
 			transform: scale(1);
 		}
-		#allDiv .divBox:hover img
+		#allDiv .divBox:hover img/*css3鼠标悬停效果*/
 		{
 			opacity: 0.5;
 			-webkit-transform: scale(1.15);
 			transform: scale(1.15);
 		}
-		#allDiv #divCenter img
+		#allDiv #divCenter img/*点击查看的大图*/
 		{
 			position: absolute;
 			width: 50%;
@@ -46,7 +46,7 @@
 			left: 10%;
 			top: 20%;
 		}
-		#divTitle
+		#divTitle/*网页上方标题*/
 		{
 			position: absolute;
 			text-align: center;
@@ -57,7 +57,7 @@
 			width: 100%;
 			height: 75px; 
 		}
-		#divMakerName
+		#divMakerName/*制作人信息*/
 		{
 			position: absolute;
 			text-align: center;
@@ -68,7 +68,7 @@
 			width: 100%;
 			height: 50px; 
 		}
-		.textBox
+		.textBox/*评论区*/
 		{
 			position: absolute;
 			font-size: 20px;
@@ -80,17 +80,17 @@
 			color: white;
 			border: solid 1px #ccc; 
 		}
-		.positionBox
+		.positionBox/*地理距离区*/
 		{
 			position: absolute;
 			left: 50%;
 			width: 40%;
-			top: 90%;
+			top: 92%;
 			font-size: 10px;
 			background: white;
 			font-family: 微软雅黑;
 		}
-		#divCenter
+		#divCenter/*大图的浮动区*/
 		{
 			position: absolute; 
 			z-index: 100; 
@@ -101,7 +101,7 @@
 			left: 20%;
 			border: 1px solid #222;
 		}
-		#shadeDiv
+		#shadeDiv/*大图遮罩区*/
 		{
 			position: absolute;
 			margin: 0px 1px; 
@@ -116,14 +116,14 @@
 			height: 1000px;
 			display: none;
 			}
-			.posButton
+			.posButton/*按钮*/
 			{
 				position: absolute;
 				left: 10%;
 				top: 90%;
 				font-family: 微软雅黑;
 			}
-			#backgroundPic
+			#backgroundPic/*背景图片*/
 			{
 				height: 100%; 
 				width: 100%; 
@@ -146,7 +146,7 @@
 
 <div id='allDiv'>
 	<div id="shadeDiv"></div>
-	<div id="divTitle">王小寒的秀恩爱网站</div>
+	<div id="divTitle">王小寒の秀恩爱网站</div>
 	<div id="divMakerName">made by 苏雍驰</div>
 	<div id="divCenter" class="divCenter">
     	<img src="" id="showimg">
