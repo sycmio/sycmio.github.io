@@ -330,10 +330,17 @@
     var moveMouse = function(evt)//鼠标拖动事件
     {
     	var allDivElement=document.getElementById('allDiv');
+    	debugger;
     	if(draggingObj)
-    	{//只有点击Dialog Title的时候才能拖动
-        	allDivElement.style.left=(evt.clientX-diffX)+'px';
-        	allDivElement.style.top=(evt.clientY-diffY)+'px';
+    	{
+    		if(evt.clientX-diffX>0&&evt.clientX-diffX+600<document.documentElement.clientWidth)
+    		{
+    			allDivElement.style.left=(evt.clientX-diffX)+'px';
+    		}
+    		if(evt.clientY-diffY>0&&evt.clientY-diffY+400<document.documentElement.clientHeight)
+    		{
+    			allDivElement.style.top=(evt.clientY-diffY)+'px';
+    		}
     	}
     }
             
