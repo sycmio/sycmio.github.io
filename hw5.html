@@ -19,7 +19,7 @@
 
   	</div>
     <div id='messagesDiv'></div>
-    <textarea type='text' id='messageInput' placeholder='在此键入消息'></textarea>
+    <textarea type='text' id='messageInput' placeholder='在此键入消息，按回车发送'></textarea>
    </div>
     <div id='shadeDiv'></div>
     <div id='divCenter'>
@@ -46,7 +46,7 @@
 		        myMessageRef.push({nickname: myNickName, text: text});
 		        $('#messageInput').val("");		        
         	}
-        	e.preventDefault();//停止原本的回车换行
+        	e.preventDefault();//停止原本的回车换行事件
         }
       });
       $('#nameInput').keypress(function (e) {//输入昵称框的回车事件
@@ -73,7 +73,7 @@
 		            $("#divCenter").fadeOut(1500);
 		            $("#shadeDiv").fadeOut(1500);
 		            $("#allDiv").fadeIn(1500);
-		            isInitial=false;
+		            isInitial=false;//进入聊天界面
 	          	}
 	          	else{
 	            	$('#alertDiv').text("昵称重复，请重新输入");
@@ -85,7 +85,7 @@
       //如果服务器的消息信息发生添加
       myMessageRef.limitToLast(1).on('child_added', function(snapshot) {
         var message = snapshot.val();
-        if(isInitial===false)//判断是否进入了聊天界面
+        if(!isInitial)//判断是否进入了聊天界面
         {
         	displayChatMessage(message.nickname, message.text);
         }
@@ -96,7 +96,7 @@
       	if(isMyNickNameKey)//得到该用户昵称对应的key
       	{
         	myNickNameKey = snapshot.key();
-        	isMyNickNameKey = false;
+        	isMyNickNameKey = false;//此后新添加的key不是该用户昵称对应的
         }
       });
       //显示消息
@@ -106,9 +106,9 @@
       };
       //如果服务器的昵称信息发生增减
       myNickNameRef.on('value', function(snapshot) {
-      	myNickNameOBJ = snapshot.val();
+      	myNickNameOBJ = snapshot.val();//从服务器得到最新昵称列表
       	$("li").remove();//移除原有列表
-      	for(var p in myNickNameOBJ)//重新添加
+      	for(var p in myNickNameOBJ)//重新添加用户列表
         {
             $('<li/>').text(myNickNameOBJ[p].nickname).appendTo($('#userList'));
         }
