@@ -330,7 +330,6 @@
     var moveMouse = function(evt)//鼠标拖动事件
     {
     	var allDivElement=document.getElementById('allDiv');
-    	debugger;
     	if(draggingObj)
     	{
     		if(evt.clientX-diffX>0&&evt.clientX-diffX+600<document.documentElement.clientWidth)
@@ -354,6 +353,11 @@
     document.addEventListener('mousedown',downMouse);
     document.addEventListener('mousemove',moveMouse);
     document.addEventListener('mouseup',upMouse);
+
+    window.onresize = function () {
+    	$("#allDiv").css("left",0.25*document.documentElement.clientWidth);
+    	$("#allDiv").css("top",0.1*document.documentElement.clientHeight);
+    };
     </script>
   </body>
 </html>
