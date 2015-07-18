@@ -1,0 +1,194 @@
+        #divCenter/*输入昵称区*/
+        {
+        	position: absolute; 
+        	z-index: 10; 
+        	display: block; 
+        	background-color: black; 
+        	width: 50%; 
+        	height: 50%;
+        	left: 25%;
+        	top: 25%;
+        	border: 1px solid #222;
+        }
+        #guideDiv/*显示引导文字*/
+        {
+        	position: absolute;
+        	left: 25%;
+        	top: 20%;
+        	font-family: 微软雅黑;
+			font-size: 24px;
+			color: white;
+        }
+        #nameInput/*昵称输入区*/
+        {
+        	position: absolute; 
+			top: 40%;
+			font-family: 微软雅黑;
+			font-size: 24px;
+			left: 25%;
+        }
+  		#alertDiv/*警告区*/
+		{
+			position: absolute;
+			top: 60%;
+			font-family: 微软雅黑;
+			color:red;
+			font-size: 20px;
+			left: 25%;
+		}
+        #shadeDiv/*遮罩区*/
+        {
+        	position: absolute;
+        	margin: 0px; 
+        	z-index: 2; 
+        	background-color: black; 
+        	opacity: 0.8;
+        	filter: alpha(opacity=80);
+        	position: absolute;
+        	left: 0%; 
+        	top: 0%; 
+        	width: 100%;
+        	height: 100%;
+        	display: block;
+        }
+        #allDiv/*聊天总区块*/
+        {
+     		position: absolute;
+    		top: 10%;
+    		left: 25%;
+    		height: 450px;
+    		width: 600px;
+    		display: none;     	
+        }
+        #messagesDiv/*消息显示区*/
+        {
+    		position: absolute;
+    		top: 10%;
+    		left: 30%;
+    		height: 273px;
+    		width: 378px;
+    		overflow: auto;
+    		border: solid 1px black;
+    		font-size: 20px;
+    		font-family: 微软雅黑;
+    		color: white;
+    		padding: 10px 20px;
+    	}
+    	#messageInput/*消息输入区*/
+    	{
+    		position: absolute;
+    		top: 339px;
+    		height: 105px;
+    		left: 30%;
+    		width: 414px;
+    		border: solid 1px black;
+    		font-size: 20px;
+    		font-family: 微软雅黑;
+    		background:transparent;
+    		color: white;
+    	}
+    	#userListDiv/*用户列表区*/
+    	{
+    		position: absolute;
+    		top: 10%;
+    		height: 403px;
+    		left: 0%;
+    		width: 179px;
+    		border: solid 1px black;
+    	}
+    	#userList_Title/*列表标题区*/
+    	{
+    		position: absolute;
+    		top: 0%;
+    		height: 50px;
+    		width: 100%;
+    		text-align: center;
+    		font-size: 24px;
+    		font-family: 微软雅黑;
+    		border-bottom: solid 1px black;
+    		color: white;
+    	}
+    	#userList/*实际列表区*/
+    	{
+    		position: absolute;
+    		top: 40px;
+    		width: 136px;
+    		height: 343px;
+    		overflow: auto; 	
+    	}
+    	#userList li/*列表中的每一项*/
+    	{
+    		font-size: 24px;
+    		font-family: 微软雅黑;	
+    		border-bottom: solid 2px white;	  
+    		color: white; 		  		
+    	}
+    	#title/*聊天区标题*/
+    	{
+    		position: absolute;
+    		top: 0%;
+    		height: 42px;
+    		left: 0%;
+    		width: 596px;
+    		background: #ccc;
+    		cursor :move;
+    		border: dotted 2px black;
+    		text-align: center;
+    		font-size: 30px;
+    		font-family: 微软雅黑;
+    		opacity: 0.7;	
+    	}
+    	#allDiv img/*聊天区背景*/
+    	{
+    		position: absolute;
+    		z-index: -1;
+    		height: 100%;
+    		width: 100%;
+    		opacity: 0.9;
+        	filter: alpha(opacity=90);
+        	-webkit-filter: brightness(30%);
+    	}
+
+		#backgroundPic/*整体背景*/
+		{
+			position: fixed;
+			z-index: -2;
+			top: 0%;
+			left: 0%;
+			height: 100%;
+			width: 100%;
+			min-width: 1000px;
+			min-height: 500px;
+			opacity: 0.8;
+		}
+		/*设置css3滚动条外观*/
+		::-webkit-scrollbar 
+		{
+			width: 12px;
+		}
+		::-webkit-scrollbar-track 
+		{
+			-webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.5); 
+			-webkit-border-radius: 6px;
+			border-radius: 6px;
+			border:1px solid #ccc
+		}
+		::-webkit-scrollbar-corner
+		{
+			background: #ccc;
+			border-radius: 3px;
+			overflow: hidden;
+		}
+		::-webkit-scrollbar-thumb 
+		{
+			-webkit-border-radius: 6px;
+			border-radius: 6px;
+			background: rgba(0,0,0,0.5); 
+			-webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.5); 
+		}
+		::-webkit-scrollbar-thumb:window-inactive 
+		{
+			background:transparent;
+		}
+
+      </style>
