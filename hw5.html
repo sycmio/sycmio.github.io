@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+    <script src='https://sycmio.github.io/src/firebase.js'></script>
+    <script src='https://sycmio.github.io/src/jquery.min.js'></script>
+    <style type="text/css">
+        #divCenter/*输入昵称区*/
+        {
+        	position: absolute; 
+        	z-index: 10; 
+        	display: block; 
+        	background-color: black; 
+        	width: 50%; 
+        	height: 50%;
+        	left: 25%;
+        	top: 25%;
+        	border: 1px solid #222;
+        }
+        #guideDiv
+        {
+        	position: absolute;
+        	left: 25%;
+        	top: 20%;
+        	font-family: 微软雅黑;
+			font-size: 24px;
+			color: white;
+        }
+        #nameInput
+        {
+        	position: absolute; 
+			top: 40%;
+			font-family: 微软雅黑;
+			font-size: 24px;
+			left: 25%;
+        }
+  		#alertDiv
+		{
+			position: absolute;
+			top: 60%;
+			font-family: 微软雅黑;
+			color:red;
+			font-size: 20px;
+			left: 25%;
+		}
+        #shadeDiv/*遮罩区*/
+        {
+        	position: absolute;
+        	margin: 0px; 
+        	z-index: 2; 
+        	background-color: black; 
+        	opacity: 0.8;
+        	filter: alpha(opacity=80);
+        	position: absolute;
+        	left: 0%; 
+        	top: 0%; 
+        	width: 100%;
+        	height: 1000px;
+        	display: block;
+        }
+        #allDiv
+        {
+     		position: absolute;
+    		top: 10%;
+    		left: 25%;
+    		height: 450px;
+    		width: 600px;       	
+        }
+        #messagesDiv 
+        {
+    		position: absolute;
+    		top: 10%;
+    		left: 30%;
+    		height: 273px;
+    		width: 378px;
+    		overflow: auto;
+    		border: solid 1px black;
+    		font-size: 20px;
+    		font-family: 微软雅黑;
+    		color: white;
+    		padding: 10px 20px;
+    	}
+    	#messageInput
+    	{
+    		position: absolute;
+    		top: 339px;
+    		height: 105px;
+    		left: 30%;
+    		width: 414px;
+    		border: solid 1px black;
+    		font-size: 20px;
+    		font-family: 微软雅黑;
+    		background:transparent;
+    		color: white;
+    	}
+    	#userListDiv
+    	{
+    		position: absolute;
+    		top: 10%;
+    		height: 403px;
+    		left: 0%;
+    		width: 179px;
+    		border: solid 1px black;
+    	}
+    	#userList_Title
+    	{
+    		position: absolute;
+    		top: 0%;
+    		height: 50px;
+    		width: 100%;
+    		text-align: center;
+    		font-size: 24px;
+    		font-family: 微软雅黑;
+    		border-bottom: solid 1px black;
+    		color: white;
+    	}
+    	#userList
+    	{
+    		position: absolute;
+    		top: 40px;
+    		width: 136px;
+    		height: 343px;
+    		overflow: auto; 	
+    	}
+    	#userList li
+    	{
+    		font-size: 24px;
+    		font-family: 微软雅黑;	
+    		border-bottom: solid 2px white;	  
+    		color: white; 		  		
+    	}
+    	#title
+    	{
+    		position: absolute;
+    		top: 0%;
+    		height: 42px;
+    		left: 0%;
+    		width: 596px;
+    		background: #ccc;
+    		cursor :move;
+    		border: dotted 2px black;
+    		text-align: center;
+    		font-size: 30px;
+    		font-family: 微软雅黑;
+    		opacity: 0.7;	
+    	}
+    	#allDiv img
+    	{
+    		position: absolute;
+    		z-index: -1;
+    		height: 100%;
+    		width: 100%;
+    		opacity: 0.9;
+        	filter: alpha(opacity=90);
+        	-webkit-filter: brightness(30%);
+    	}
+
+		#backgroundPic
+		{
+			position: fixed;
+			z-index: -2;
+			top: 0%;
+			left: 0%;
+			height: 100%;
+			width: 100%;
+			min-width: 1000px;
+			min-height: 500px;
+			opacity: 0.8;
+		}
+
+		::-webkit-scrollbar 
+		{
+			width: 12px;
+		}
+		::-webkit-scrollbar-track 
+		{
+			-webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.5); 
+			-webkit-border-radius: 6px;
+			border-radius: 6px;
+			border:1px solid #ccc
+		}
+		::-webkit-scrollbar-corner
+		{
+			background:transparent;
+		}
+		::-webkit-scrollbar-thumb 
+		{
+			-webkit-border-radius: 6px;
+			border-radius: 6px;
+			background: rgba(0,0,0,0.5); 
+			-webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.5); 
+		}
+		::-webkit-scrollbar-thumb:window-inactive 
+		{
+			background:transparent;
+		}
+
+
+      </style>
+  </head>
+  <body>  
+  <img src="http://sycmio.github.io/imageSources/1167237547198d217do.jpg" id='backgroundPic'>
+  <div id="allDiv">
+  <img src="http://sycmio.github.io/imageSources/41525174.jpg">
+  <div id="title" class="title">简易聊天室</div>
+  	<div id="userListDiv">
+  		<div id="userList_Title">用户列表</div>
+  		<ul id="userList">
+  		</ul>
+
+  	</div>
+    <div id='messagesDiv'></div>
+    <textarea type='text' id='messageInput' placeholder='在此键入消息'></textarea>
+   </div>
+    <div id='shadeDiv'></div>
+    <div id='divCenter'>
+    	<div id="guideDiv">请输入昵称</div>
+    	<input type='text' id='nameInput' placeholder='输入完成请按回车'>
+    	<div id='alertDiv'></div>
+    </div>   
+    
+
+    <script>
+
+      var myNickName;
+      var myMessageRef = new Firebase('https://boiling-inferno-9575.firebaseio.com/message/');
+      var myNickNameRef = new Firebase('https://boiling-inferno-9575.firebaseio.com/nickname/');
+      var myNickNameOBJ;
+      var myNickNameKey;
+      var isMyNickNameKey=false;
+      var isInitial=true;
+      $('#messageInput').keypress(function (e) {
+        if (e.keyCode == 13) {
+          var text = $('#messageInput').val();
+          myMessageRef.push({nickname: myNickName, text: text});
+          $('#messageInput').val("");
+          e.preventDefault();
+        }
+      });
+      $('#nameInput').keypress(function (e) {
+        if(e.keyCode == 13) {
+        	if($('#nameInput').val()==="")
+        	{
+        		$('#alertDiv').text("昵称不能为空");
+        	}
+        	else
+        	{
+        		var isValid = true;
+          		for(var p in myNickNameOBJ)
+          		{
+            		if ($('#nameInput').val()===myNickNameOBJ[p].nickname)
+            		{
+             		 isValid = false;
+            		}
+          		}
+	            if(isValid === true)
+	            {
+	            	myNickName = $('#nameInput').val();
+		            isMyNickNameKey = true;
+		            myNickNameRef.push({nickname: myNickName});
+		            document.getElementById("divCenter").style.display = "none";
+		            document.getElementById("shadeDiv").style.display = "none";
+		            isInitial=false;
+	          	}
+	          	else{
+	            	$('#alertDiv').text("昵称重复，请重新输入");
+	          	}
+	        }       
+        }
+      })
+
+
+      myMessageRef.limitToLast(1).on('child_added', function(snapshot) {
+        var message = snapshot.val();
+        if(isInitial===false)
+        {
+        	displayChatMessage(message.nickname, message.text);
+        }
+        
+      });
+      myNickNameRef.on('child_added', function(snapshot) {
+      	if(isMyNickNameKey)
+      	{
+        	myNickNameKey = snapshot.key();
+        	isMyNickNameKey = false;
+        }
+      });
+      function displayChatMessage(name, text) {
+        $('<div/>').text(name+" : "+text).appendTo($('#messagesDiv'));
+        $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+      };
+
+      myNickNameRef.on('value', function(snapshot) {
+      	myNickNameOBJ = snapshot.val();
+      	$("li").remove();
+      	for(var p in myNickNameOBJ)
+        {
+            $('<li/>').text(myNickNameOBJ[p].nickname).appendTo($('#userList'));
+        }
+      });
+
+      function onunloadFunc () {
+        var myDeleteNickNameRef = new Firebase('https://boiling-inferno-9575.firebaseio.com/nickname/'+myNickNameKey);
+        myDeleteNickNameRef.remove();
+      }
+      window.onunload = onunloadFunc;
+
+    var draggingObj=null; //拖曳聊天室
+    var diffX=0;
+    var diffY=0;
+            
+    var downMouse = function(evt)//鼠标按下事件
+    {
+        if(evt.target.className.indexOf('title')!=-1)
+        {
+            draggingObj=evt.target.offsetParent;
+            diffX=event.clientX-draggingObj.offsetLeft;
+            diffY=event.clientY-draggingObj.offsetTop;
+        }
+    }
+            
+    var moveMouse = function(evt)//鼠标拖动事件
+    {
+    	var allDivElement=document.getElementById('allDiv');
+    	if(draggingObj)
+    	{//只有点击Dialog Title的时候才能拖动
+        	allDivElement.style.left=(evt.clientX-diffX)+'px';
+        	allDivElement.style.top=(evt.clientY-diffY)+'px';
+    	}
+    }
+            
+    var upMouse = function(evt)//鼠标松开事件
+    {
+        draggingObj=null;
+        diffX=0;
+        diffY=0;
+    }
+    //增加三个事件响应
+    document.addEventListener('mousedown',downMouse);
+    document.addEventListener('mousemove',moveMouse);
+    document.addEventListener('mouseup',upMouse);
+
+      //Object.getOwnPropertyNames(a).length
+    </script>
+  </body>
+</html>
