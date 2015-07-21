@@ -484,7 +484,7 @@
         var personElement = document.getElementById('person');
         var leftFloat = parseFloat(personElement.style.left.substring(0,personElement.style.left.length - 1));
         // 石块与人位置重合 则游戏结束
-        if ((100 - rightFloat) > leftFloat && (100 - rightFloat) < (leftFloat + 4 + 2)) {
+        if ((100 - rightFloat) > leftFloat && (100 - rightFloat) < (leftFloat + 3)) {
         	if(curZoneChildrenElement[i].id != "prop"){
             // 此时身上无护盾 停止重复函数
             if(hasShield === false){
