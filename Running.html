@@ -92,12 +92,12 @@
         stoneLayer++;
         score += 2;
         scoreTag.innerHTML = "Score: " + score;
-        createStone(2, 3000);
+        createStone(2, 1800);
         if (stoneLayer >= 20) {
           clearInterval(setStage2);
           curStage = 3;
           setTimeout(function(){
-            setStage3 = setInterval(Stage3, 800);
+            setStage3 = setInterval(Stage3, 500);
           }, 2000);
         };
       };
@@ -106,12 +106,12 @@
         stoneLayer++;
         score += 1;
         scoreTag.innerHTML = "Score: " + score;
-        createStone(1, 3000);
+        createStone(2, 3000);
         if (stoneLayer >= 10) {
           clearInterval(setStage1);
           curStage = 2;
           setTimeout(function(){
-            setStage2 = setInterval(Stage2, 1000);
+            setStage2 = setInterval(Stage2, 800);
           }, 2000);
         };
       };
@@ -150,7 +150,7 @@
         stoneLayer++;
         score += 3;
         scoreTag.innerHTML = "Score: " + score;
-        createStone(3, 2000);
+        createStone(3, 1800);
         if (stoneLayer >= 50) {
           clearInterval(setStage3);
           curStage = 4;
@@ -164,12 +164,12 @@
         stoneLayer++;
         score += 2;
         scoreTag.innerHTML = "Score: " + score;
-        createStone(3, 3000);
+        createStone(3, 2000);
         if (stoneLayer >= 25) {
           clearInterval(setStage2);
           curStage = 3;
           setTimeout(function(){
-            setStage3 = setInterval(Stage3, 600);
+            setStage3 = setInterval(Stage3, 500);
           }, 2000);
         };
       };
@@ -178,17 +178,17 @@
         stoneLayer++;
         score += 1;
         scoreTag.innerHTML = "Score: " + score;
-        createStone(2, 3000);
+        createStone(3, 2500);
         if (stoneLayer >= 10) {
           clearInterval(setStage1);
           curStage = 2;
           setTimeout(function(){
-            setStage2 = setInterval(Stage2, 800);
+            setStage2 = setInterval(Stage2, 700);
           }, 2000);
         };
       };
 
-      setStage1 = setInterval(Stage1, 1000);
+      setStage1 = setInterval(Stage1, 800);
 
       setOver = setInterval(function(){
         isGameOver();
@@ -233,7 +233,7 @@
         stoneLayer++;
         score += 3;
         scoreTag.innerHTML = "Score: " + score;
-        createStone(4 - isminusObstacle, 2000);
+        createStone(5 - isminusObstacle, 1800);
         if (stoneLayer >= 50) {
           clearInterval(setStage3);
           curStage = 4;
@@ -248,7 +248,7 @@
         stoneLayer++;
         score += 2;
         scoreTag.innerHTML = "Score: " + score;
-        createStone(4-isminusObstacle, 2500);
+        createStone(4-isminusObstacle, 2000);
         if (stoneLayer >= 25) {
           clearInterval(setStage2);
           curStage = 3;
