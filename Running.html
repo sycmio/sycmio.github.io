@@ -46,7 +46,6 @@
     // 游戏结束时清除重复函数
     setInterval(function(){
       if (over === true) {
-      	debugger;
         try{
           clearInterval(setStage1);
           throw "Error";
@@ -412,12 +411,23 @@
     // 获取不重复随机数
     var getRandom = function(num){
   	 	var original = new Array;
+      var ranNumber = 0;
+      var isValidNum = true;
   	 	for (var i = 0; i < num; i++){ 
-  			original[i] = i + 1; 
+  			while(true){
+          isValidNum = true;
+          ranNumber = parseInt(Math.random() * 7 + 1);
+          for(var j = 0; j < i; j++){
+            if(ranNumber===original[j]){
+              isValidNum = false;
+            }
+          }
+          if(isValidNum===true){
+            original[i] = ranNumber;
+            break;
+          }
+        }
   		};
-  		original.sort(function(){
-  			return 0.5 - Math.random();
-  		});
   		return original;
     };
 
