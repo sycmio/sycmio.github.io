@@ -17,7 +17,7 @@ Tipsboxtitle.innerHTML = "操作提示";
 Tipsbox.appendChild(Tipsboxtitle);
 //UP
 var Tipsboxpicture_up = document.createElement("img");
-Tipsboxpicture_up.src = "up.png";
+Tipsboxpicture_up.src = "http://sycmio.github.io/running/up.png";
 Tipsboxpicture_up.style.cssText = "display:block; position:absolute; left:25%; top:15%; width:15%; height:9%; color:#000;";
 Tipsbox.appendChild(Tipsboxpicture_up);
 var Tipsboxcontent_up = document.createElement("div");
@@ -35,7 +35,7 @@ Tipsboxcontent_down.innerHTML = "向下移动";
 Tipsbox.appendChild(Tipsboxcontent_down);
 //LEFT
 var Tipsboxpicture_left = document.createElement("img");
-Tipsboxpicture_left.src = "left.png";
+Tipsboxpicture_left.src = "http://sycmio.github.io/running/left.png";
 Tipsboxpicture_left.style.cssText = "display:block; position:absolute; left:25%; top:38%; width:15%; height:9%; color:#000;";
 Tipsbox.appendChild(Tipsboxpicture_left);
 var Tipsboxcontent_left = document.createElement("div");
@@ -44,7 +44,7 @@ Tipsboxcontent_left.innerHTML = "向左移动";
 Tipsbox.appendChild(Tipsboxcontent_left);
 //RIGHT
 var Tipsboxpicture_right = document.createElement("img");
-Tipsboxpicture_right.src = "right.png";
+Tipsboxpicture_right.src = "http://sycmio.github.io/running/right.png";
 Tipsboxpicture_right.style.cssText = "display:block; position:absolute; left:25%; top:50%; width:15%; height:9%; color:#000;";
 Tipsbox.appendChild(Tipsboxpicture_right);
 var Tipsboxcontent_right = document.createElement("div");
@@ -53,7 +53,7 @@ Tipsboxcontent_right.innerHTML = "向右移动";
 Tipsbox.appendChild(Tipsboxcontent_right);
 //SHIELD
 var Tipsboxpicture_shield = document.createElement("img");
-Tipsboxpicture_shield.src = "Shield.png";
+Tipsboxpicture_shield.src = "http://sycmio.github.io/running/Shield.png";
 Tipsboxpicture_shield.style.cssText = "display:block; position:absolute; left:26%; top:63%; width:15%; height:9%; color:#000;";
 Tipsbox.appendChild(Tipsboxpicture_shield);
 var Tipsboxcontent_shield = document.createElement("div");
@@ -62,7 +62,7 @@ Tipsboxcontent_shield.innerHTML = "护盾";
 Tipsbox.appendChild(Tipsboxcontent_shield);
 //SCORE
 var Tipsboxpicture_score = document.createElement("img");
-Tipsboxpicture_score.src = "score.png";
+Tipsboxpicture_score.src = "http://sycmio.github.io/running/score.png";
 Tipsboxpicture_score.style.cssText = "display:block; position:absolute; left:26%; top:75%; width:15%; height:9%; color:#000;";
 Tipsbox.appendChild(Tipsboxpicture_score);
 var Tipsboxcontent_score = document.createElement("div");
@@ -71,7 +71,7 @@ Tipsboxcontent_score.innerHTML = "加分";
 Tipsbox.appendChild(Tipsboxcontent_score);
 //MINUSONE
 var Tipsboxpicture_minusone = document.createElement("img");
-Tipsboxpicture_minusone.src = "minusone.png";
+Tipsboxpicture_minusone.src = "http://sycmio.github.io/running/minusone.png";
 Tipsboxpicture_minusone.style.cssText = "display:block; position:absolute; left:26%; top:88%; width:15%; height:9%; color:#000;";
 Tipsbox.appendChild(Tipsboxpicture_minusone);
 var Tipsboxcontent_minusone = document.createElement("div");
