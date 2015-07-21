@@ -1,0 +1,622 @@
+<html>
+  <head>
+  	<meta charset="utf-8">
+    <title>Running</title>
+    <script src='https://djangotarantino.github.io/jquery-1.11.1.min.js'></script>
+    <link rel="stylesheet" href="http://sycmio.github.io/running/Running.css"/>
+  </head>
+  <body>
+  	<div id="OperationArea" ></div>
+    <script src="http://sycmio.github.io/running/Layout.js"></script>
+  	<script>
+    // 重新开始 点击事件
+    restartboxTag.onclick = function(){
+      var zoneElement = document.getElementsByClassName('zone');
+      var len = zoneElement.length;
+      for (var i = 0; i < len; i++) {
+        zoneElement[0].parentNode.removeChild(zoneElement[0]);
+      };
+      $('#restartbox').fadeOut(500);
+      $('#StartboxOutside').fadeIn(500);
+      $('#Tipsbox').fadeIn(500);
+      $('#Startbox').fadeIn(500);
+      // 初始化 重置
+      zonenumber = 0;
+      curStage = 1;
+      cnt = 1;
+      score = 0;
+      scoreTag.innerHTML = "Score: " + score;
+      over = false;
+  };
+    // 带数量
+    var zonenumber = 0;
+    // 当前难度
+    var curStage = 1;
+    // 当前难度 重复函数
+    var setStage1;
+    var setStage2;
+    var setStage3;
+    var setStage4;
+    // 结束 重复函数
+    var setOver;
+
+    // 标记游戏结束
+    var over = false;
+
+    // 游戏结束时清除重复函数
+    setInterval(function(){
+      if (over === true) {
+      	debugger;
+        try{
+          clearInterval(setStage1);
+          throw "Error";
+        }catch (e) {};
+        try{
+          clearInterval(setStage2);
+          throw "Error";
+        }catch (e) {};
+        try{
+          clearInterval(setStage3);
+          throw "Error";
+        }catch (e) {};
+        try{
+          clearInterval(setStage4);
+          throw "Error";
+        }catch (e) {};
+      };
+    }, 100);
+
+    // 简单模式 点击事件
+    EasyTag.onclick = function(){
+      // 带数量
+    	zonenumber = 3;
+      $('#Tipsbox').fadeOut(500);
+      $('#Startbox').fadeOut(500);
+      $('#StartboxOutside').fadeOut(500);
+      // 带加载
+    	EasyStyle();
+      // 人加载
+    	createperson();
+      // 人移动加载
+    	movePerson();
+      // 石块层数
+      var stoneLayer = 0;
+
+      var Stage3 = function(){
+        stoneLayer++;
+        score += 3;
+        scoreTag.innerHTML = "Score: " + score;
+        createStone(2, 2000);
+      };
+
+      var Stage2 = function(){
+        stoneLayer++;
+        score += 2;
+        scoreTag.innerHTML = "Score: " + score;
+        createStone(2, 3000);
+        if (stoneLayer >= 20) {
+          clearInterval(setStage2);
+          curStage = 3;
+          setTimeout(function(){
+            setStage3 = setInterval(Stage3, 800);
+          }, 2000);
+        };
+      };
+
+      var Stage1 = function(){
+        stoneLayer++;
+        score += 1;
+        scoreTag.innerHTML = "Score: " + score;
+        createStone(1, 3000);
+        if (stoneLayer >= 10) {
+          clearInterval(setStage1);
+          curStage = 2;
+          setTimeout(function(){
+            setStage2 = setInterval(Stage2, 1000);
+          }, 2000);
+        };
+      };
+
+      setStage1 = setInterval(Stage1, 1000);
+
+      setOver = setInterval(function(){
+        isGameOver();
+      }, 10);
+    };
+
+    // 中等模式 点击事件
+    NormTag.onclick = function(){
+      // 带数量
+      zonenumber = 5;
+      $('#Tipsbox').fadeOut(500);
+      $('#Startbox').fadeOut(500);
+      $('#StartboxOutside').fadeOut(500);
+      // 带加载
+      NormStyle();
+      // 人加载
+      createperson();
+      // 人移动加载
+      movePerson();
+      // 石块层数
+      var stoneLayer = 0;
+
+      var Stage4 = function(){
+        stoneLayer++;
+        score += 4;
+        scoreTag.innerHTML = "Score: " + score;
+        createStone(4, 2000);
+      };
+
+      var Stage3 = function(){
+        stoneLayer++;
+        score += 3;
+        scoreTag.innerHTML = "Score: " + score;
+        createStone(3, 2000);
+        if (stoneLayer >= 50) {
+          clearInterval(setStage3);
+          curStage = 4;
+          setTimeout(function(){
+            setStage4 = setInterval(Stage4, 500);
+          }, 2000);
+        };
+      };
+
+      var Stage2 = function(){
+        stoneLayer++;
+        score += 2;
+        scoreTag.innerHTML = "Score: " + score;
+        createStone(3, 3000);
+        if (stoneLayer >= 25) {
+          clearInterval(setStage2);
+          curStage = 3;
+          setTimeout(function(){
+            setStage3 = setInterval(Stage3, 600);
+          }, 2000);
+        };
+      };
+
+      var Stage1 = function(){
+        stoneLayer++;
+        score += 1;
+        scoreTag.innerHTML = "Score: " + score;
+        createStone(2, 3000);
+        if (stoneLayer >= 10) {
+          clearInterval(setStage1);
+          curStage = 2;
+          setTimeout(function(){
+            setStage2 = setInterval(Stage2, 800);
+          }, 2000);
+        };
+      };
+
+      setStage1 = setInterval(Stage1, 1000);
+
+      setOver = setInterval(function(){
+        isGameOver();
+      }, 10);
+    };
+    
+    // 道具类型个数
+    var proptypeNumber = 3;
+    // 隐藏护盾效果
+    var hasShield = false;
+    // 真实护盾效果
+    var reallyHasShield = false;
+    // 减少石块效果
+    var isminusObstacle = 0;
+
+    // 困难模式 点击事件
+    HardTag.onclick = function(){
+      // 带数量
+      zonenumber = 7;
+      $('#Tipsbox').fadeOut(500);
+      $('#Startbox').fadeOut(500);
+      $('#StartboxOutside').fadeOut(500);
+      // 带加载
+      HardStyle();
+      // 人加载
+      createperson();
+      // 人移动加载
+      movePerson();
+      // 石块移动速度
+      var speed = 3000;
+      //石块层数
+      var stoneLayer = 0;
+
+      var Stage4 = function(){
+        stoneLayer++;
+        score += 4;
+        scoreTag.innerHTML = "Score: " + score;
+        createStone(5 - isminusObstacle, 1500);
+      };
+
+      var Stage3 = function(){
+        stoneLayer++;
+        score += 3;
+        scoreTag.innerHTML = "Score: " + score;
+        createStone(4 - isminusObstacle, 2000);
+        if (stoneLayer >= 50) {
+          clearInterval(setStage3);
+          curStage = 4;
+          speed = 1500;
+          setTimeout(function(){
+            setStage4 = setInterval(Stage4, 300);
+          }, 2000);
+        };
+      };
+
+      var Stage2 = function(){
+        stoneLayer++;
+        score += 2;
+        scoreTag.innerHTML = "Score: " + score;
+        createStone(4-isminusObstacle, 2500);
+        if (stoneLayer >= 25) {
+          clearInterval(setStage2);
+          curStage = 3;
+          speed = 2000;
+          setTimeout(function(){
+            setStage3 = setInterval(Stage3, 400);
+          }, 2000);
+        };
+      };
+
+      var Stage1 = function(){
+        stoneLayer++;
+        score += 1;
+        scoreTag.innerHTML = "Score: " + score;
+        createStone(4-isminusObstacle, 3000);
+        if (stoneLayer >= 10) {
+          clearInterval(setStage1);
+          curStage = 2;
+          speed = 2500;
+          setTimeout(function(){
+            setStage2 = setInterval(Stage2, 500);
+          }, 2000);
+        };
+      };
+
+      setStage1 = setInterval(Stage1, 650);
+
+      setOver = setInterval(function(){
+        if (isGameOver() === true){
+          clearInterval(setProp);
+          if($('#prop')[0] != null){
+            $('#prop').stop();
+          }
+        };
+      }, 10);
+
+      // 道具 重复函数
+      setProp = setInterval(function(){
+      	var proptypeArray = getRandom(proptypeNumber);
+        var propPosition = getRandom(zonenumber);
+        var isValidPosition = true;
+        for (var i = 0; i < zonenumber; i++){
+          // 获取每个带每个孩子节点
+          var curZoneChildrenElement = $('#zone'+propPosition[i]).children();
+          for(var j = 0; j < curZoneChildrenElement.length; j++)
+          {
+            var rightChar = curZoneChildrenElement[j].style.right.substring(0, curZoneChildrenElement[j].style.right.length - 1);
+            var rightFloat = parseFloat(rightChar);
+            // 当前时刻预产生点附近有石块
+            if (rightFloat < 10){
+              isValidPosition = false;
+            }
+          }
+          // 满足条件则生成道具
+          if (isValidPosition === true){
+            createProp(proptypeArray[0],propPosition[i],speed);
+            break;
+          }            
+        }
+      }, 6000);
+    };
+
+
+    // 简单模式 带加载
+  	function EasyStyle(){
+  		//带的创建
+  		var zone1 = document.createElement("div");
+  		zone1.setAttribute("class", "zone");
+  		zone1.setAttribute("id", "zone1");
+  		zone1.setAttribute("style", "top:30%");
+  		var zone2 = document.createElement("div");
+  		zone2.setAttribute("class", "zone");
+  		zone2.setAttribute("id", "zone2");
+  		zone2.setAttribute("style", "top:40%");
+  		var zone3 = document.createElement("div");
+  		zone3.setAttribute("class", "zone");
+  		zone3.setAttribute("id", "zone3");
+  		zone3.setAttribute("style", "top:50%");
+  		//带的添加
+  		var OA = document.getElementById('OperationArea');
+  		OA.appendChild(zone1);
+  		OA.appendChild(zone2);
+  		OA.appendChild(zone3);
+  	};
+  	
+    // 中等模式 带加载
+    function NormStyle(){
+      //带的创建
+      var zone1 = document.createElement("div");
+      zone1.setAttribute("class", "zone");
+      zone1.setAttribute("id", "zone1");
+      zone1.setAttribute("style", "top:20%");
+      var zone2 = document.createElement("div");
+      zone2.setAttribute("class", "zone");
+      zone2.setAttribute("id", "zone2");
+      zone2.setAttribute("style", "top:30%");
+      var zone3 = document.createElement("div");
+      zone3.setAttribute("class", "zone");
+      zone3.setAttribute("id", "zone3");
+      zone3.setAttribute("style", "top:40%");
+      var zone4 = document.createElement("div");
+      zone4.setAttribute("class", "zone");
+      zone4.setAttribute("id", "zone4");
+      zone4.setAttribute("style", "top:50%");
+      var zone5 = document.createElement("div");
+      zone5.setAttribute("class", "zone");
+      zone5.setAttribute("id", "zone5");
+      zone5.setAttribute("style", "top:60%");
+      //带的添加
+      var OA = document.getElementById('OperationArea');
+      OA.appendChild(zone1);
+      OA.appendChild(zone2);
+      OA.appendChild(zone3);
+      OA.appendChild(zone4);
+      OA.appendChild(zone5);
+    };
+
+    // 困难模式 带加载
+    function HardStyle(){
+      //带的创建
+      var zone1 = document.createElement("div");
+      zone1.setAttribute("class", "zone");
+      zone1.setAttribute("id", "zone1");
+      zone1.setAttribute("style", "top:20%");
+      var zone2 = document.createElement("div");
+      zone2.setAttribute("class", "zone");
+      zone2.setAttribute("id", "zone2");
+      zone2.setAttribute("style", "top:30%");
+      var zone3 = document.createElement("div");
+      zone3.setAttribute("class", "zone");
+      zone3.setAttribute("id", "zone3");
+      zone3.setAttribute("style", "top:40%");
+      var zone4 = document.createElement("div");
+      zone4.setAttribute("class", "zone");
+      zone4.setAttribute("id", "zone4");
+      zone4.setAttribute("style", "top:50%");
+      var zone5 = document.createElement("div");
+      zone5.setAttribute("class", "zone");
+      zone5.setAttribute("id", "zone5");
+      zone5.setAttribute("style", "top:60%");
+      var zone6 = document.createElement("div");
+      zone6.setAttribute("class", "zone");
+      zone6.setAttribute("id", "zone6");
+      zone6.setAttribute("style", "top:70%");
+      var zone7 = document.createElement("div");
+      zone7.setAttribute("class", "zone");
+      zone7.setAttribute("id", "zone7");
+      zone7.setAttribute("style", "top:80%");
+      //带的添加
+      var OA = document.getElementById('OperationArea');
+      OA.appendChild(zone1);
+      OA.appendChild(zone2);
+      OA.appendChild(zone3);
+      OA.appendChild(zone4);
+      OA.appendChild(zone5);
+      OA.appendChild(zone6);
+      OA.appendChild(zone7);
+    };
+
+    // 获取不重复随机数
+    var getRandom = function(num){
+  	 	var original = new Array;
+  	 	for (var i = 0; i < num; i++){ 
+  			original[i] = i + 1; 
+  		};
+  		original.sort(function(){
+  			return 0.5 - Math.random();
+  		});
+  		return original;
+    };
+
+  	// 生成、删除石块
+  	var cnt = 1;
+  	function createStone (stonenum, speed){
+      // 生成石块
+      // 放置石块数计数器
+      var tempCnt = 0;
+      // 不重复随机数组
+  		var stonePosition = getRandom(zonenumber);
+      // 带上加载石块
+  		for (var i = 0; i < zonenumber; i++) {
+        var isValidPosition = true;
+        if($('#prop')[0] != null && $('#zone' + stonePosition[i]).children('#prop')[0]!=null && parseFloat($('#prop')[0].style.right.substring(0, $('#prop')[0].style.right.length - 1)) < 10){
+          isValidPosition = false;
+        }
+        if(isValidPosition === true)
+        {
+          var stoneElement = document.createElement("div");
+          stoneElement.setAttribute("id", "stone" + cnt);
+          stoneElement.setAttribute("class", "stone");
+          var zoneElement = document.getElementById('zone' + stonePosition[i]);
+          zoneElement.appendChild(stoneElement);
+          $('#stone' + cnt).animate({right: "100%"}, speed, "linear");
+          cnt++;
+          tempCnt++;
+          if(tempCnt>=stonenum){
+            break;
+          }
+        }
+
+  	};
+      //删除已经到底部的石块
+  		var stoneDeleteArray = $('.stone');
+  		for (var i = 0; i < stoneDeleteArray.length; i++) {
+  			if (stoneDeleteArray[i].style.right === '100%') {
+  				stoneDeleteArray[i].parentNode.removeChild(stoneDeleteArray[i]);
+  			}
+  		};
+  	};
+
+    //判断是否游戏结束
+    function isGameOver () {
+      // 当前带ID
+      var curZoneNumber = parseInt($('#person').parent()[0].id.substring(4, 5));
+      // 当前带所有孩子节点
+      var curZoneChildrenElement = $('#zone'+curZoneNumber).children();
+      for (var i = 0; i < curZoneChildrenElement.length; i++) {
+        var rightChar = curZoneChildrenElement[i].style.right.substring(0, curZoneChildrenElement[i].style.right.length - 1);
+        var rightFloat = parseFloat(rightChar);
+        var personElement = document.getElementById('person');
+        var leftFloat = parseFloat(personElement.style.left.substring(0,personElement.style.left.length - 1));
+        // 石块与人位置重合 则游戏结束
+        if ((100 - rightFloat) > leftFloat && (100 - rightFloat) < (leftFloat + 4 + 2)) {
+        	if(curZoneChildrenElement[i].id != "prop"){
+            // 此时身上无护盾 停止重复函数
+            if(hasShield === false){
+              try{
+                clearInterval(setStage1);
+                throw "Error";
+              }catch (e) {};
+              try{
+                clearInterval(setStage2);
+                throw "Error";
+              }catch (e) {};
+              try{
+                clearInterval(setStage3);
+                throw "Error";
+              }catch (e) {};
+              try{
+                clearInterval(setStage4);
+                throw "Error";
+              }catch (e) {};
+    					clearInterval(setOver);
+              // 停止石块
+    		  $('.stone').stop();
+
+    		  // 弹出重新开始框
+    		  restartboxScore.innerHTML ="<b style='background:#DDD;filter:Alpha(Opacity=80);Opacity:0.8;'>&nbsp;Your Score:&nbsp</b><br>" + score;
+              $('#restartbox').fadeIn(500);
+              over = true;
+    		  return true;
+            }
+            else {//如果此时身上有护盾
+              setTimeout(function() {
+					    hasShield = false;
+			      }, 200);
+            // 取消护盾图标
+            personElement.setAttribute("src", "http://sycmio.github.io/running/person2.png");
+            // 标记无护盾状态
+				    reallyHasShield = false;
+            }
+        	}else {//如果吃到的是道具
+        		curZoneChildrenElement[i].style.display = "none";
+        		if(curZoneChildrenElement[i].getAttribute("value") === "1"){//如果是加分道具
+        			score += 50;
+        		}else if(curZoneChildrenElement[i].getAttribute("value") === "2"){//如果是护盾道具
+        			hasShield = true;
+        			reallyHasShield = true;
+        			// $('#person')[0].style.background = "yellow";
+              personElement.setAttribute("src", "http://sycmio.github.io/running/person3.png");
+        		}else if(curZoneChildrenElement[i].getAttribute("value") === "3"){//如果是减障碍数量道具
+        			isminusObstacle = 1;
+        			setTimeout(function() {
+        				isminusObstacle = 0;
+        			},10000);
+        		}
+        		document.getElementById('prop').parentNode.removeChild(document.getElementById('prop'));
+        	};
+        };
+      };
+      return false; 
+    };
+
+    // 道具生成
+    function createProp(proptype, locatedzone, speed){
+      if($('#prop')[0] != null){
+        document.getElementById('prop').parentNode.removeChild(document.getElementById('prop'));
+      }
+      var propElement = document.createElement("img");
+      if(proptype === 1){
+        propElement.setAttribute("src", "score.png");
+      }else if(proptype === 2){
+        propElement.setAttribute("src", "Shield.png");
+      }else if(proptype === 3){
+        propElement.setAttribute("src", "minusone.png");
+      }
+      propElement.setAttribute("id", "prop");
+      propElement.setAttribute("value", proptype);
+      document.getElementById('zone' + locatedzone).appendChild(propElement);
+      $('#prop').animate({right: "100%"}, speed, "linear");
+    }
+
+  	//人生成
+  	function createperson(){
+      var personElement = document.createElement("img");
+      personElement.setAttribute("id", "person");
+      personElement.setAttribute("src", "http://sycmio.github.io/running/person2.png");
+      personElement.setAttribute("style","left: 0%");
+      var parentZoneElement = document.getElementById('zone' + parseInt(zonenumber / 2 + 1));
+      parentZoneElement.appendChild(personElement);
+    };
+
+  	//人移动
+  	function movePerson(){
+      // 键盘响应事件
+  		document.onkeydown = function(event){
+  			var e = event || window.event || arguments.callee.caller.arguments[0];
+
+  			var personElement = document.getElementById('person');
+  			var parentPersonPositionId = personElement.parentNode.id;
+  			var n = parseInt(parentPersonPositionId.substring(4, 5));
+        var leftPsition = parseFloat(personElement.style.left.substring(0,personElement.style.left.length - 1));
+        // 游戏未结束时
+        if (over === false) {
+          //UP
+          if((e && e.keyCode === 38) && (n > 1)) {
+            personElement.parentNode.removeChild(personElement);
+            var personElement = document.createElement("img");
+            personElement.setAttribute("id", "person");
+            personElement.setAttribute("src", "http://sycmio.github.io/running/person2.png");
+              personElement.setAttribute("style","left:" + leftPsition + '%');
+              var parentZoneElement = document.getElementById('zone' + (n - 1));
+              parentZoneElement.appendChild(personElement); 
+                if(reallyHasShield === true){
+                  // $("#person").css("background-color","yellow");
+                  personElement.setAttribute("src", "http://sycmio.github.io/running/person3.png");
+                };
+          }
+          //DOWN
+          else if((e && e.keyCode === 40) && (n < zonenumber)) {
+            personElement.parentNode.removeChild(personElement);
+            var personElement = document.createElement("img");
+            personElement.setAttribute("id", "person");
+            personElement.setAttribute("src", "http://sycmio.github.io/running/person2.png");
+              personElement.setAttribute("style","left:" + leftPsition + '%');
+              var parentZoneElement = document.getElementById('zone' + (n + 1));
+              parentZoneElement.appendChild(personElement); 
+                if(reallyHasShield === true){
+                  // $("#person").css("background-color","yellow");
+                  personElement.setAttribute("src", "http://sycmio.github.io/running/person3.png");
+                };
+          }
+          //RIGHT
+          else if((e && e.keyCode === 39) && (leftPsition <= 96)) {        
+            leftPsition += 3;
+            personElement.style.left = leftPsition.toString() + '%';    
+          }
+          //LEFT
+          else if((e && e.keyCode === 37) && (leftPsition >= 3)) {        
+            leftPsition -= 3;
+            personElement.style.left = leftPsition.toString() + '%';    
+          }
+        };
+  		}; 
+    }
+
+  	
+  	</script>
+  </body>
+</html>

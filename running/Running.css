@@ -1,0 +1,41 @@
+/*全部区域*/
+#OperationArea{
+    	position: fixed;
+    	width: 100%;
+    	height: 100%;
+    	background: #DDD;
+    	top:0%;
+    	left:0%;
+}
+/*带区域*/
+.zone{
+	position: absolute;
+	width:100%;
+	height: 9%;
+	left:0%;
+	background: #FFF;
+}
+/*石块*/
+.stone{
+	position: absolute;
+	width: 2%;
+	height:100%;
+	right:0%;
+	top:0%;
+	background:#471F1F;
+}
+/*人*/
+#person{
+	position: absolute;
+	width: 4%;
+	height:100%;
+	top:0%;
+}
+/*道具*/
+#prop{
+  position: absolute;
+  width: 4%;
+  height: 100%;
+  top:0%;
+  right: 0%;
+}
