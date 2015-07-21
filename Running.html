@@ -7,8 +7,10 @@
   </head>
   <body>
   	<div id="OperationArea" ></div>
+    <div id="bgm"></div>
     <script src="http://sycmio.github.io/running/Layout.js"></script>
   	<script>
+    $('#bgm').append('<embed id="m_bg_music"  loop=true  volume="20" autostart=true hidden=false src="http://sycmio.github.io/running/Capozio - Journey.mp3" />');
     // 重新开始 点击事件
     restartboxTag.onclick = function(){
       var zoneElement = document.getElementsByClassName('zone');
@@ -252,7 +254,7 @@
         if (stoneLayer >= 25) {
           clearInterval(setStage2);
           curStage = 3;
-          speed = 2000;
+          speed = 1800;
           setTimeout(function(){
             setStage3 = setInterval(Stage3, 400);
           }, 2000);
@@ -267,7 +269,7 @@
         if (stoneLayer >= 10) {
           clearInterval(setStage1);
           curStage = 2;
-          speed = 2500;
+          speed = 2000;
           setTimeout(function(){
             setStage2 = setInterval(Stage2, 500);
           }, 2000);
