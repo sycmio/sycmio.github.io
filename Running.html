@@ -3,14 +3,14 @@
   	<meta charset="utf-8">
     <title>Running</title>
     <script src='https://djangotarantino.github.io/jquery-1.11.1.min.js'></script>
-    <link rel="stylesheet" href="http://sycmio.github.io/running/Running.css"/>
+    <link rel="stylesheet" href="running/Running.css"/>
   </head>
   <body>
   	<div id="OperationArea" ></div>
     <div id="bgm"></div>
-    <script src="http://sycmio.github.io/running/Layout.js"></script>
+    <script src="running/Layout.js"></script>
   	<script>
-    $('#bgm').append('<embed id="m_bg_music"  loop=true  volume="20" autostart=true hidden=false src="http://sycmio.github.io/running/Capozio - Journey.mp3" />');
+    $('#bgm').append('<embed id="m_bg_music"  loop=true  volume="20" autostart=true hidden=false src="running/Capozio - Journey.mp3" />');
     // 重新开始 点击事件
     restartboxTag.onclick = function(){
       var zoneElement = document.getElementsByClassName('zone');
@@ -519,7 +519,7 @@
 					    hasShield = false;
 			      }, 200);
             // 取消护盾图标
-            personElement.setAttribute("src", "http://sycmio.github.io/running/person2.png");
+            personElement.setAttribute("src", "running/person2.png");
             // 标记无护盾状态
 				    reallyHasShield = false;
             }
@@ -531,7 +531,7 @@
         			hasShield = true;
         			reallyHasShield = true;
         			// $('#person')[0].style.background = "yellow";
-              personElement.setAttribute("src", "http://sycmio.github.io/running/person3.png");
+              personElement.setAttribute("src", "running/person3.png");
         		}else if(curZoneChildrenElement[i].getAttribute("value") === "3"){//如果是减障碍数量道具
         			isminusObstacle = 1;
         			setTimeout(function() {
@@ -552,11 +552,11 @@
       }
       var propElement = document.createElement("img");
       if(proptype === 1){
-        propElement.setAttribute("src", "http://sycmio.github.io/running/score.png");
+        propElement.setAttribute("src", "running/score.png");
       }else if(proptype === 2){
-        propElement.setAttribute("src", "http://sycmio.github.io/running/Shield.png");
+        propElement.setAttribute("src", "running/Shield.png");
       }else if(proptype === 3){
-        propElement.setAttribute("src", "http://sycmio.github.io/running/minusone.png");
+        propElement.setAttribute("src", "running/minusone.png");
       }
       propElement.setAttribute("id", "prop");
       propElement.setAttribute("value", proptype);
@@ -568,7 +568,7 @@
   	function createperson(){
       var personElement = document.createElement("img");
       personElement.setAttribute("id", "person");
-      personElement.setAttribute("src", "http://sycmio.github.io/running/person2.png");
+      personElement.setAttribute("src", "running/person2.png");
       personElement.setAttribute("style","left: 0%");
       var parentZoneElement = document.getElementById('zone' + parseInt(zonenumber / 2 + 1));
       parentZoneElement.appendChild(personElement);
@@ -591,13 +591,13 @@
             personElement.parentNode.removeChild(personElement);
             var personElement = document.createElement("img");
             personElement.setAttribute("id", "person");
-            personElement.setAttribute("src", "http://sycmio.github.io/running/person2.png");
+            personElement.setAttribute("src", "running/person2.png");
               personElement.setAttribute("style","left:" + leftPsition + '%');
               var parentZoneElement = document.getElementById('zone' + (n - 1));
               parentZoneElement.appendChild(personElement); 
                 if(reallyHasShield === true){
                   // $("#person").css("background-color","yellow");
-                  personElement.setAttribute("src", "http://sycmio.github.io/running/person3.png");
+                  personElement.setAttribute("src", "running/person3.png");
                 };
           }
           //DOWN
@@ -605,13 +605,13 @@
             personElement.parentNode.removeChild(personElement);
             var personElement = document.createElement("img");
             personElement.setAttribute("id", "person");
-            personElement.setAttribute("src", "http://sycmio.github.io/running/person2.png");
+            personElement.setAttribute("src", "running/person2.png");
               personElement.setAttribute("style","left:" + leftPsition + '%');
               var parentZoneElement = document.getElementById('zone' + (n + 1));
               parentZoneElement.appendChild(personElement); 
                 if(reallyHasShield === true){
                   // $("#person").css("background-color","yellow");
-                  personElement.setAttribute("src", "http://sycmio.github.io/running/person3.png");
+                  personElement.setAttribute("src", "running/person3.png");
                 };
           }
           //RIGHT
