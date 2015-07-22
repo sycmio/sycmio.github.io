@@ -58,7 +58,7 @@ Tipsboxpicture_shield.style.cssText = "display:block; position:absolute; left:26
 Tipsbox.appendChild(Tipsboxpicture_shield);
 var Tipsboxcontent_shield = document.createElement("div");
 Tipsboxcontent_shield.style.cssText = "font-size:"+(sx/80)+"px; font-family:STXihei; display:block; position:absolute; left:50%; top:63%; color:#000;";
-Tipsboxcontent_shield.innerHTML = "护盾";
+Tipsboxcontent_shield.innerHTML = "护盾(Hard)";
 Tipsbox.appendChild(Tipsboxcontent_shield);
 //SCORE
 var Tipsboxpicture_score = document.createElement("img");
@@ -67,7 +67,7 @@ Tipsboxpicture_score.style.cssText = "display:block; position:absolute; left:26%
 Tipsbox.appendChild(Tipsboxpicture_score);
 var Tipsboxcontent_score = document.createElement("div");
 Tipsboxcontent_score.style.cssText = "font-size:"+(sx/80)+"px; font-family:STXihei; display:block; position:absolute; left:50%; top:75%; color:#000;";
-Tipsboxcontent_score.innerHTML = "加分";
+Tipsboxcontent_score.innerHTML = "加分(Hard)";
 Tipsbox.appendChild(Tipsboxcontent_score);
 //MINUSONE
 var Tipsboxpicture_minusone = document.createElement("img");
@@ -76,7 +76,7 @@ Tipsboxpicture_minusone.style.cssText = "display:block; position:absolute; left:
 Tipsbox.appendChild(Tipsboxpicture_minusone);
 var Tipsboxcontent_minusone = document.createElement("div");
 Tipsboxcontent_minusone.style.cssText = "font-size:"+(sx/80)+"px; font-family:STXihei; display:block; position:absolute; left:50%; top:88%; color:#000;";
-Tipsboxcontent_minusone.innerHTML = "砖块减少";
+Tipsboxcontent_minusone.innerHTML = "砖块减少(Hard)";
 Tipsbox.appendChild(Tipsboxcontent_minusone);
 
 //开始界面区域
